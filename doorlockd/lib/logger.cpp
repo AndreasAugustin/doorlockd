@@ -5,7 +5,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
-#include <map>
+#include <unordered_map>
 #include <mutex>
 
 #ifdef _WIN32
@@ -17,7 +17,7 @@
 
 #ifdef USE_COLORIZED_LOGS
 #ifdef _WIN32 // If Windows, Use Windows Terminal coloring
-const static map<LogLevel, WORD> colorAttribute = {
+const static unordered_map<LogLevel, WORD, std::hash< int > > colorAttribute = {
     {LogLevel::error,   FOREGROUND_RED },
     {LogLevel::warning, FOREGROUND_RED | FOREGROUND_GREEN },
     {LogLevel::notice,  FOREGROUND_BLUE },
@@ -26,7 +26,7 @@ const static map<LogLevel, WORD> colorAttribute = {
     {LogLevel::debug2,  FOREGROUND_BLUE | FOREGROUND_RED },
 };
 #else // Use ANSI Escape sequences
-const static std::map<LogLevel, std::string> prefix_ansicolor = {
+const static std::unordered_map<LogLevel, std::string, std::hash< int > > prefix_ansicolor = {
     {LogLevel::error,   "\x1b[1m\x1b[31m" },
     {LogLevel::warning, "\x1b[1m\x1b[33m" },
     {LogLevel::notice,  "\x1b[1m\x1b[34m" },
@@ -39,7 +39,7 @@ const static std::string suffix_ansireset = "\x1b[0m";
 #endif
 #endif
 
-const static std::map<LogLevel, std::string> logLevel = {
+const static std::unordered_map<LogLevel, std::string, std::hash< int > > logLevel = {
     {LogLevel::error,   "ERROR  " },
     {LogLevel::warning, "WARNING" },
     {LogLevel::notice,  "NOTICE " },
